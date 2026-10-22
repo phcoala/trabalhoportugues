@@ -10,6 +10,7 @@
 .scene--closing,
 .scene--media,
 .scene--questions,
+.scene--mariana,
 .scene--refs {
   display: flex;
   flex-direction: column;
@@ -2405,6 +2406,235 @@
   opacity: 0.42;
 }
 
+/* 04 · eixos temáticos (Igor) */
+
+.scene--themes .themes__word {
+  max-width: 15ch;
+  font-size: clamp(30px, 3.9vw, 62px);
+  font-stretch: 82%;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  text-transform: none;
+}
+
+.scene--themes .themes__text {
+  max-width: 36ch;
+  font-size: clamp(13px, 0.94vw, 17px);
+}
+
+.scene--themes .themes__tab-name {
+  font-size: clamp(13px, 0.96vw, 18px);
+  line-height: 1.14;
+}
+
+/* 11 · perguntas (ainda sem perguntas) */
+
+.scene--questions {
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.scene--questions .chapter-head .meta {
+  opacity: 0.58;
+}
+
+.questions__layout {
+  align-items: stretch;
+}
+
+.questions__intro {
+  justify-content: center;
+}
+
+.questions__board {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(52vh, 520px);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  background:
+    radial-gradient(ellipse at 50% 44%, color-mix(in srgb, currentColor 8%, transparent), transparent 62%),
+    color-mix(in srgb, currentColor 3%, transparent);
+  isolation: isolate;
+}
+
+.questions__board::before {
+  content: "";
+  position: absolute;
+  inset: clamp(14px, 1.9vw, 26px);
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  pointer-events: none;
+}
+
+.questions__glyph {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  padding-bottom: 0.08em;
+  color: transparent;
+  font-family: var(--font-serif);
+  font-size: clamp(16rem, 28vw, 32rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.6;
+  opacity: 0.14;
+  -webkit-text-stroke: 1px currentColor;
+  pointer-events: none;
+  user-select: none;
+}
+
+.questions__orbit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: min(32vw, 380px);
+  aspect-ratio: 1;
+  margin: auto;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.questions__orbit::before,
+.questions__orbit::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.34;
+}
+
+.questions__orbit::after {
+  inset: auto;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border: 0;
+  background: var(--accent);
+  transform: translateX(-50%);
+  opacity: 1;
+}
+
+.questions__placeholder {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 0 8%;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.2vw, 52px);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.015em;
+  line-height: 1.16;
+  text-align: center;
+}
+
+/* 12 · frase da Mariana (ainda por preencher) */
+
+.scene--mariana {
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.mariana__layout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  text-align: center;
+}
+
+.mariana__glyph {
+  position: absolute;
+  top: clamp(-64px, -3vh, -18px);
+  left: 0;
+  right: 0;
+  z-index: 0;
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-size: clamp(14rem, 26vw, 30rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.55;
+  text-align: center;
+  opacity: 0.18;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mariana__orbit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: min(52vw, 540px);
+  aspect-ratio: 1;
+  margin: auto;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.mariana__orbit::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.mariana__quote {
+  position: relative;
+  z-index: 2;
+  max-width: 26ch;
+  margin: 0;
+  padding: 0 6%;
+  font-size: clamp(30px, 4.1vw, 64px);
+}
+
+.mariana__placeholder {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.16;
+}
+
+.mariana__rule {
+  position: relative;
+  z-index: 2;
+  width: clamp(60px, 7vw, 110px);
+  height: 1px;
+  margin-top: clamp(24px, 4.4vh, 52px);
+  background: var(--accent);
+}
+
+.mariana__credit {
+  position: relative;
+  z-index: 2;
+  margin: clamp(14px, 2vh, 22px) 0 0;
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.6vw, 11px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
 @media (max-width: 1180px) {
   .themes__layout,
   .form__layout,
@@ -2444,6 +2674,7 @@
   .scene--closing,
   .scene--media,
   .scene--questions,
+  .scene--mariana,
   .scene--refs {
     padding-top: clamp(50px, 7.4vh, 68px);
     padding-bottom: clamp(38px, 5.4vh, 52px);
@@ -2570,5 +2801,306 @@
 
   .refs__note {
     padding-top: 1.4vh;
+  }
+}
+
+/* ---------- 04 · análise temática — seis eixos ---------- */
+
+.axes {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: clamp(16px, 2.2vh, 28px);
+}
+
+.axes__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(24px, 4vw, 70px);
+  flex: 0 0 auto;
+}
+
+.axes__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(46px, 5.4vw, 94px);
+  font-weight: 900;
+  font-stretch: 69%;
+  letter-spacing: -0.055em;
+  line-height: 0.79;
+  text-transform: uppercase;
+}
+
+.axes__title-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2em;
+  margin-top: 0.18em;
+  font-size: 0.46em;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+
+.axes__title-line em {
+  font-family: var(--font-serif);
+  font-size: 1.04em;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  color: var(--accent);
+  text-transform: none;
+}
+
+.axes__lead {
+  max-width: 42ch;
+  margin: clamp(8px, 1.4vh, 16px) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.04vw, 19px);
+  line-height: 1.45;
+  opacity: 0.68;
+}
+
+.axes__figure {
+  --axis: #8fa8bb;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-width: clamp(150px, 16vw, 236px);
+  min-height: clamp(136px, 13vw, 206px);
+  padding-bottom: 0.3em;
+}
+
+.axes__ring {
+  position: absolute;
+  top: 2px;
+  right: clamp(4px, 1.4vw, 24px);
+  bottom: 2px;
+  width: auto;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--axis) 48%, transparent);
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: axes-spin 52s linear infinite;
+  pointer-events: none;
+}
+
+.axes__ring::before {
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border: 1px dashed color-mix(in srgb, var(--axis) 30%, transparent);
+  border-radius: 50%;
+}
+
+.axes__ring i {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--axis);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--axis) 14%, transparent);
+  transform: translateX(-50%);
+}
+
+@keyframes axes-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.axes__figure-num {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(108px, 12vw, 188px);
+  font-weight: 900;
+  font-stretch: 60%;
+  letter-spacing: -0.09em;
+  line-height: 0.62;
+  opacity: 0.55;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--axis) 78%, var(--ink));
+  pointer-events: none;
+  user-select: none;
+}
+
+.axes__figure-cap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.45em;
+  margin-top: clamp(10px, 1.4vh, 16px);
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.62vw, 11px);
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.axes__figure-slash {
+  opacity: 0.5;
+}
+
+.axes__list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: clamp(14px, 2.4vh, 32px);
+}
+
+.axis {
+  --axis: #8fa8bb;
+  --axis-field: var(--ink);
+  position: relative;
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: clamp(38px, 4.4vw, 70px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 28px);
+  width: calc(100% + var(--pad) * 2);
+  margin-inline: calc(var(--pad) * -1);
+  padding: clamp(7px, 1.15vh, 14px) var(--pad);
+  border-top: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  transition:
+    background-color 0.5s var(--ease),
+    border-color 0.35s,
+    color 0.35s;
+}
+
+.axis:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.axis:hover {
+  background: color-mix(in srgb, var(--axis) 9%, transparent);
+}
+
+.axis:focus-visible {
+  outline: 2px solid var(--axis);
+  outline-offset: -5px;
+}
+
+.axis__num {
+  align-self: start;
+  padding-top: 0.4em;
+  color: var(--axis);
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 0.72vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+.axis__body {
+  display: block;
+  min-width: 0;
+}
+
+.axis__name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.7vw, 44px);
+  font-weight: 600;
+  font-stretch: 84%;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  transition:
+    transform 0.55s var(--ease),
+    color 0.35s;
+}
+
+.axis:hover .axis__name {
+  transform: translateX(8px);
+}
+
+.axis__desc {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.55s var(--ease),
+    opacity 0.45s;
+}
+
+.axis__desc-inner {
+  display: block;
+  min-height: 0;
+  max-width: 68ch;
+  overflow: hidden;
+  color: var(--on-night);
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.05vw, 19px);
+  line-height: 1.42;
+}
+
+.axis__mark {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--axis);
+  opacity: 0.55;
+  transform: scale(0.55);
+  transition:
+    width 0.5s var(--ease),
+    border-radius 0.5s,
+    opacity 0.35s,
+    transform 0.5s var(--ease);
+}
+
+.axis.is-current {
+  border-color: color-mix(in srgb, var(--axis) 55%, transparent);
+  background:
+    radial-gradient(120% 170% at 0% 50%, color-mix(in srgb, var(--axis) 24%, transparent), transparent 62%),
+    var(--axis-field);
+  color: var(--on-night);
+}
+
+.axis.is-current .axis__num {
+  opacity: 1;
+}
+
+.axis.is-current .axis__name {
+  color: var(--on-night);
+  transform: translateX(10px);
+}
+
+.axis.is-current .axis__desc {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.axis.is-current .axis__desc-inner {
+  padding-top: clamp(5px, 0.8vh, 10px);
+  padding-bottom: 0.1em;
+}
+
+.axis.is-current .axis__mark {
+  width: clamp(34px, 3.4vw, 56px);
+  height: 2px;
+  border-radius: 0;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .axes__ring {
+    animation: none;
   }
 }

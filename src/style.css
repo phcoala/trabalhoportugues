@@ -272,7 +272,7 @@ img {
 /* cenas de tinta cheia: o HUD inverte com o tema */
 .app[data-scene="2"] .hud,
 .app[data-scene="5"] .hud,
-.app[data-scene="12"] .hud {
+.app[data-scene="11"] .hud {
   color: var(--paper);
 }
 

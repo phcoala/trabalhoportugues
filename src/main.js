@@ -20,6 +20,7 @@ const app = document.getElementById("app");
 const stage = document.getElementById("stage");
 const scenes = $$(".scene");
 const TOTAL_CHAPTERS = $$(".scene[data-num]").length;
+const OUTRO_INDEX = scenes.length - 1;
 const hud = document.getElementById("hud");
 const hudChapter = $(".hud__chapter");
 const hudCurrent = $("[data-nav-current]");
@@ -49,6 +50,7 @@ const state = {
   readerOpen: false,
   readerIndex: 3,
   workIndex: 3,
+  themeIndex: 0,
   savedFocus: null,
   savedReaderFocus: null,
   hudTimer: null,
@@ -117,6 +119,45 @@ const works = [
   },
 ];
 
+const themes = [
+  {
+    name: "Incomunicabilidade e Solidão",
+    text: "Relações marcadas pelo distanciamento e pela incapacidade de conexão real com o outro.",
+    color: "#8fa8bb",
+    field: "#1f2c36",
+  },
+  {
+    name: "Autoengano e Fabulação",
+    text: "A criação de mentiras e fantasias mentais como fuga da realidade sufocante.",
+    color: "#c06b92",
+    field: "#2c141d",
+  },
+  {
+    name: "Tédio Existencial",
+    text: "A rotina medíocre e a opressão do cotidiano como propulsoras do ato violento.",
+    color: "#c9a06a",
+    field: "#2e2416",
+  },
+  {
+    name: "Espaço Claustrofóbico",
+    text: "Ambientes decadentes e sufocantes que espelham o estado psicológico dos personagens.",
+    color: "#a8b880",
+    field: "#2b3621",
+  },
+  {
+    name: "Culpa e Simbolismo Religioso",
+    text: "Alusões à traição e à queda moral (remetendo ao mito de Judas e Eva).",
+    color: "#c45d45",
+    field: "#331b16",
+  },
+  {
+    name: "Verdade Fragmentada",
+    text: "A construção da identidade do protagonista através do olhar e depoimento de quatro mulheres distintas.",
+    color: "#9b8fc4",
+    field: "#241f33",
+  },
+];
+
 const fxChapters = {
   0: { kicker: "Abertura", word: "Vozes e resistência", accent: "var(--accent)" },
   1: { kicker: "01 / Contexto", word: "Um país em mudança", accent: "var(--olive)", number: 1 },
@@ -129,7 +170,9 @@ const fxChapters = {
   8: { kicker: "08 / Presente", word: "Os ecos de 1975", accent: "var(--slate)", number: 8 },
   9: { kicker: "09 / Conclusão", word: "Voltar é uma forma de continuar", accent: "var(--ochre)", number: 9 },
   10: { kicker: "10 / Voz", word: "A voz da autora", accent: "var(--rose)", number: 10 },
-  11: { kicker: "Fim / Apresentação", word: "Obrigado pela atenção", accent: "var(--accent)" },
+  11: { kicker: "11 / Perguntas", word: "Perguntas", accent: "var(--slate)", number: 11 },
+  12: { kicker: "12 / Frase", word: "A última palavra", accent: "var(--rose)", number: 12 },
+  13: { kicker: "Fim / Apresentação", word: "Obrigado pela atenção", accent: "var(--accent)" },
 };
 
 /* -------------------------------------------------------------------------
@@ -363,14 +406,6 @@ function startAmbient(index) {
     loopTween(photo, { scale: 1.11, duration: 12 });
   }
 
-  if (index === 4) {
-    const orbit = $(".themes__orbit", scene);
-
-    if (orbit) {
-      addAmbient(gsap.to(orbit, { opacity: 0.2, duration: 7, repeat: -1, yoyo: true }));
-    }
-  }
-
   if (index === 6) {
     const recede = $(".excerpt__recede", scene);
 
@@ -412,6 +447,38 @@ function startAmbient(index) {
   }
 
   if (index === 11) {
+    const orbit = $(".questions__orbit", scene);
+
+    if (orbit) {
+      addAmbient(
+        gsap.to(orbit, {
+          rotation: 360,
+          duration: 90,
+          repeat: -1,
+          ease: "none",
+          transformOrigin: "50% 50%",
+        })
+      );
+    }
+  }
+
+  if (index === 12) {
+    const orbit = $(".mariana__orbit", scene);
+
+    if (orbit) {
+      addAmbient(
+        gsap.to(orbit, {
+          rotation: -360,
+          duration: 120,
+          repeat: -1,
+          ease: "none",
+          transformOrigin: "50% 50%",
+        })
+      );
+    }
+  }
+
+  if (index === OUTRO_INDEX) {
     const dot = $(".outro__rule-dot", scene);
 
     if (dot) loopTween(dot, { opacity: 0.45, duration: 3.4 });
@@ -699,32 +766,86 @@ function enterWorks() {
   return tl;
 }
 
+function selectAxis(index, { animate = true } = {}) {
+  const scene = scenes[4];
+  if (!scene) return;
+
+  const next = ((index % themes.length) + themes.length) % themes.length;
+  const changed = next !== state.themeIndex;
+  const active = themes[next];
+  const number = $("[data-axis-number]", scene);
+  const count = $("[data-axis-count]", scene);
+  const figure = $(".axes__figure", scene);
+
+  state.themeIndex = next;
+
+  $$("[data-axis]", scene).forEach((row, rowIndex) => {
+    const current = rowIndex === next;
+    row.classList.toggle("is-current", current);
+    row.setAttribute("aria-pressed", current ? "true" : "false");
+  });
+
+  if (number) number.textContent = pad(next + 1);
+  if (count) count.textContent = pad(next + 1);
+  if (figure) figure.style.setProperty("--axis", active.color);
+
+  if (!changed || !animate || reduceMotion) return;
+
+  const desc = $(".axis.is-current .axis__desc-inner", scene);
+
+  if (number) {
+    gsap.killTweensOf(number);
+    gsap.fromTo(
+      number,
+      { clipPath: "inset(100% 0 0 0)", yPercent: 16 },
+      { clipPath: "inset(0% 0 0 0)", yPercent: 0, duration: 0.8, ease: "expo.out", overwrite: true, clearProps: "clipPath,transform" }
+    );
+  }
+
+  if (desc) {
+    gsap.killTweensOf(desc);
+    gsap.fromTo(
+      desc,
+      { y: 12, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", overwrite: true, clearProps: "transform,opacity" }
+    );
+  }
+}
+
 function enterThemes() {
   const scene = scenes[4];
   const head = $(".chapter-head", scene);
-  const orbit = $(".themes__orbit", scene);
-  const titleChars = charsIn(scene, ".themes__title .line__inner[data-split]");
-  const titleEm = $(".themes__title-line em", scene);
-  const panel = $(".themes__panel", scene);
-  const number = $(".themes__number", scene);
-  const word = $(".themes__word", scene);
+  const titleChars = charsIn(scene, ".axes__title .line__inner[data-split]");
+  const titleEm = $(".axes__title-line em", scene);
+  const lead = $(".axes__lead", scene);
+  const figure = $(".axes__figure", scene);
+  const number = $("[data-axis-number]", scene);
+  const rows = $$(".axis", scene);
+  const nums = $$(".axis__num", scene);
+  const names = $$(".axis__name", scene);
 
-  if (orbit) gsap.set(orbit, { clearProps: "transform,opacity" });
+  selectAxis(state.themeIndex, { animate: false });
 
   gsap.set(head, { opacity: 0, y: -10 });
   gsap.set(titleChars, { yPercent: 122, rotate: 2 });
   gsap.set(titleEm, { opacity: 0, y: 14 });
-  gsap.set(panel, { opacity: 0, y: 28, clipPath: "inset(0 0 100% 0)" });
-  gsap.set([number, word], { opacity: 0, y: 18 });
+  gsap.set(lead, { opacity: 0, y: 14 });
+  if (figure) gsap.set(figure, { opacity: 0, y: 24 });
+  if (number) gsap.set(number, { clipPath: "inset(100% 0 0 0)" });
+  gsap.set(rows, { y: 24 });
+  gsap.set([...nums, ...names], { opacity: 0 });
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   tl.to(head, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
     .to(titleChars, { yPercent: 0, rotate: 0, duration: 1.1, stagger: 0.028, ease: "expo.out" }, 0.12)
     .to(titleEm, { opacity: 1, y: 0, duration: 0.8 }, 0.5)
-    .to(panel, { opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)", duration: 1.15, ease: "expo.inOut" }, 0.4)
-    .to(number, { opacity: 0.16, y: 0, duration: 0.8, ease: "expo.out" }, 0.68)
-    .to(word, { opacity: 1, y: 0, duration: 0.85, ease: "expo.out" }, 0.72);
+    .to(lead, { opacity: 0.7, y: 0, duration: 0.7 }, 0.55)
+    .to(rows, { y: 0, duration: 0.85, stagger: 0.055, clearProps: "transform" }, 0.48)
+    .to(nums, { opacity: 1, duration: 0.5, stagger: 0.055, clearProps: "opacity" }, 0.6)
+    .to(names, { opacity: 1, duration: 0.55, stagger: 0.055, clearProps: "opacity" }, 0.64)
+    .to(figure, { opacity: 1, y: 0, duration: 0.9 }, 0.5)
+    .to(number, { clipPath: "inset(0% 0 0 0)", duration: 1, ease: "expo.out" }, 0.6);
 
   return tl;
 }
@@ -928,8 +1049,66 @@ function enterMedia() {
   return tl;
 }
 
-function enterOutro() {
+function enterQuestions() {
   const scene = scenes[11];
+  const head = $(".chapter-head", scene);
+  const titleChars = charsIn(scene, ".questions__title [data-split]");
+  const board = $(".questions__board", scene);
+  const glyph = $(".questions__glyph", scene);
+  const orbit = $(".questions__orbit", scene);
+  const note = $(".questions__placeholder", scene);
+
+  if (orbit) gsap.set(orbit, { clearProps: "transform" });
+  gsap.set(head, { opacity: 0, y: -10 });
+  gsap.set(titleChars, { yPercent: 122, rotate: 2 });
+  gsap.set(board, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set(glyph, { opacity: 0, scale: 0.78, rotate: -8 });
+  gsap.set(orbit, { opacity: 0, scale: 0.86 });
+  gsap.set(note, { opacity: 0, y: 18 });
+
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+  tl.to(head, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
+    .to(titleChars, { yPercent: 0, rotate: 0, duration: 1.1, stagger: 0.032, ease: "expo.out" }, 0.12)
+    .to(board, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "expo.inOut" }, 0.34)
+    .to(glyph, { opacity: 0.14, scale: 1, rotate: 0, duration: 1.2, ease: "expo.out" }, 0.52)
+    .to(orbit, { opacity: 0.5, scale: 1, duration: 1.1, ease: "expo.out" }, 0.6)
+    .to(note, { opacity: 1, y: 0, duration: 0.7 }, 0.86);
+
+  return tl;
+}
+
+function enterMariana() {
+  const scene = scenes[12];
+  const head = $(".chapter-head", scene);
+  const glyph = $(".mariana__glyph", scene);
+  const orbit = $(".mariana__orbit", scene);
+  const note = $(".mariana__placeholder", scene);
+  const rule = $(".mariana__rule", scene);
+  const credit = $(".mariana__credit", scene);
+
+  if (orbit) gsap.set(orbit, { clearProps: "transform" });
+  gsap.set(head, { opacity: 0, y: -10 });
+  gsap.set(glyph, { opacity: 0, scale: 0.72, rotate: -8 });
+  gsap.set(orbit, { opacity: 0, scale: 0.84, rotate: -18 });
+  gsap.set(note, { opacity: 0, y: 24 });
+  gsap.set(rule, { scaleX: 0, transformOrigin: "center center" });
+  gsap.set(credit, { opacity: 0, y: 10 });
+
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+  tl.to(head, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
+    .to(glyph, { opacity: 0.22, scale: 1, rotate: 0, duration: 1.15, ease: "expo.out" }, 0.12)
+    .to(orbit, { opacity: 0.7, scale: 1, rotate: 0, duration: 1.35, ease: "expo.out" }, 0.26)
+    .to(note, { opacity: 1, y: 0, duration: 0.95, ease: "expo.out" }, 0.48)
+    .to(rule, { scaleX: 1, duration: 0.9, ease: "expo.inOut" }, 0.82)
+    .to(credit, { opacity: 0.62, y: 0, duration: 0.6 }, 1.02);
+
+  return tl;
+}
+
+function enterOutro() {
+  const scene = scenes[OUTRO_INDEX];
   const meta = $(".outro__meta", scene);
   const titleChars = charsIn(scene, ".outro__title [data-split]");
   const em = $(".outro__line--2 em", scene);
@@ -968,6 +1147,8 @@ const enterBuilders = [
   enterPresent,
   enterClosing,
   enterMedia,
+  enterQuestions,
+  enterMariana,
   enterOutro,
 ];
 
@@ -1042,7 +1223,7 @@ function swapScene(next) {
   announce(
     number
       ? `Capítulo ${number} de ${TOTAL_CHAPTERS} — ${incoming.dataset.label}`
-      : next === 11
+      : next === OUTRO_INDEX
         ? "Fim da apresentação"
         : "Abertura"
   );
@@ -1082,7 +1263,7 @@ function panelTransition(target, direction) {
   fxKicker.textContent = chapter.kicker;
   fxChapter.textContent = chapter.number
     ? `${pad(chapter.number)} / ${TOTAL_CHAPTERS}`
-    : target === 11
+    : target === OUTRO_INDEX
       ? "Fim"
       : "";
   fx.style.setProperty("--fx-accent", chapter.accent);
@@ -1583,6 +1764,10 @@ function bindEvents() {
 
   $$('[data-action="theme"]').forEach((button) => {
     button.addEventListener("click", toggleTheme);
+  });
+
+  $$("[data-axis]", scenes[4]).forEach((row) => {
+    row.addEventListener("click", () => selectAxis(Number(row.dataset.axis)));
   });
 
   $$('[data-action="open-index"]').forEach((button) => {

@@ -5263,3 +5263,131 @@
     padding-top: 3px;
   }
 }
+
+/* ---------- 03 · contos: anexo editorial da pesquisa da Sophia ---------- */
+
+.works__collections {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(14px, 2.2vw, 36px);
+  margin-top: clamp(8px, 1.6vh, 18px);
+  padding-top: clamp(8px, 1.4vh, 14px);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  color: var(--ink);
+}
+
+.works__collections-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.58vw, 10px);
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.works__collections ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2.4vw, 44px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.works__collections li {
+  display: grid;
+  grid-template-columns: 4.5ch minmax(0, 1fr);
+  column-gap: 0.85em;
+  align-items: baseline;
+}
+
+.works__collections-year {
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.58vw, 10px);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  opacity: 0.55;
+}
+
+.works__collections-body {
+  display: block;
+  min-width: 0;
+}
+
+.works__collections-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.05vw, 19px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.works__collections-note {
+  display: block;
+  margin-top: 0.28em;
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 0.9vw, 15px);
+  line-height: 1.4;
+  opacity: 0.62;
+}
+
+.reader__facts {
+  display: grid;
+  gap: clamp(9px, 1.3vh, 14px);
+  max-width: 48ch;
+  margin: clamp(20px, 3vh, 30px) 0 0;
+  padding-top: clamp(14px, 2vh, 20px);
+  border-top: 1px solid rgba(11, 12, 10, 0.14);
+}
+
+.reader__facts div {
+  display: grid;
+  grid-template-columns: 7.2em minmax(0, 1fr);
+  gap: clamp(10px, 1.4vw, 18px);
+  align-items: baseline;
+}
+
+.reader__facts dt {
+  margin: 0;
+  color: var(--reader-accent);
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.58vw, 10px);
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.reader__facts dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 0.95vw, 16px);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .works__collections {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 620px) {
+  .works__collections ul {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .reader__facts div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+@media (max-height: 560px) {
+  .works__collections {
+    display: none;
+  }
+}

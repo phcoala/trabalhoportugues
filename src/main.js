@@ -75,28 +75,37 @@ const works = [
   {
     year: "2001",
     title: "Campo de Sangue",
-    note: "Quatro mulheres que não se conhecem prestam depoimento sobre um homem acusado.",
+    note: "Quatro mulheres depõem sobre um homem acusado.",
     reader: {
       kind: "Romance",
-      summary: "Quatro mulheres que não se conhecem prestam depoimento sobre um homem acusado.",
+      summary:
+        "Quatro mulheres que não se conhecem depõem sobre um homem acusado. Escrita com uma bolsa de criação literária, esta estreia recebeu o Grande Prémio Acontece de Romance.",
+      prize: "Grande Prémio Acontece de Romance",
+      themes: "Comportamento humano · conflitos psicológicos · violência · ambiguidades morais",
     },
   },
   {
     year: "2005",
     title: "Os Meus Sentimentos",
-    note: "Numa noite de temporal, Violeta sofre um acidente e recorda os pais, a filha e a urgência da vida.",
+    note: "Violeta recorda a vida depois de um acidente.",
     reader: {
-      kind: "Romance",
-      summary: "Numa noite de temporal, Violeta sofre um acidente e recorda os pais, a filha e a urgência da vida.",
+      kind: "Romance psicológico",
+      summary:
+        "Violeta, uma mulher obesa que sofre com a rejeição social, recorda a vida depois de um acidente. A narrativa avança em ordem inversa e revela conflitos familiares e afetivos.",
+      prize: "Prémio da União Europeia para a Literatura, 2009",
+      themes: "Padrões de beleza · solidão e rejeição · memória e identidade · relações humanas",
     },
   },
   {
     year: "2009",
     title: "O Chão dos Pardais",
-    note: "Afonso é um homem poderoso e inatingível, exceto pelo passar dos anos. A família reúne-se na festa dos seus sessenta anos.",
+    note: "Afonso reúne a família na festa dos seus sessenta anos.",
     reader: {
       kind: "Romance",
-      summary: "Afonso é um homem poderoso e inatingível, exceto pelo passar dos anos. A família reúne-se na festa dos seus sessenta anos.",
+      summary:
+        "Afonso, um homem poderoso perto dos sessenta anos, reúne a família para celebrar o aniversário. A festa expõe tensões e uma tragédia desfaz a aparência de normalidade.",
+      prize: "Prémio PEN Clube Português e Prémio Ciranda",
+      themes: "Aparências sociais · relações familiares · envelhecimento · amor e poder · solidão",
     },
   },
   {
@@ -104,17 +113,23 @@ const works = [
     title: "O Retorno",
     note: "Rui regressa de Angola em 1975.",
     reader: {
-      kind: "Obra em foco",
-      summary: "Em 1975, Rui, adolescente português que vive em Angola, regressa com a família a Portugal depois da descolonização.",
+      kind: "Romance histórico e social",
+      summary:
+        "Em 1975, Rui, adolescente português que vive em Angola, regressa com a família a Portugal depois da descolonização. A adaptação envolve dificuldades materiais, preconceito e a perda de referências.",
+      prize: "Livro do Ano (Público e Expresso) e Prémio Especial da Crítica",
+      themes: "Identidade · exílio e deslocamento · preconceito · memória · história e política",
     },
   },
   {
     year: "2018",
     title: "Eliete",
-    note: "Eliete chega à meia-idade e sente a vida de esposa e mãe a sufocá-la.",
+    note: "Aos 42 anos, Eliete questiona o casamento, a maternidade e a vida que julgava querer.",
     reader: {
       kind: "Romance",
-      summary: "Eliete chega à meia-idade e sente a vida de esposa e mãe a sufocá-la.",
+      summary:
+        "Eliete, 42 anos, casada e mãe de duas filhas, questiona a vida que julgava ter conquistado quando a avó é hospitalizada. As redes sociais e o Tinder levam-na a rever o casamento, a maternidade e o passado.",
+      prize: "2.º lugar no Prémio Oceanos, 2019",
+      themes: "Vida cotidiana · identidade feminina · tecnologia e relacionamentos · memória familiar · passagem do tempo",
     },
   },
 ];
@@ -1492,6 +1507,11 @@ function readerMarkup(data) {
   const parts = [];
 
   if (reader.summary) parts.push(`<p class="reader__summary">${reader.summary}</p>`);
+
+  const facts = [];
+  if (reader.prize) facts.push(`<div><dt>Prémios</dt><dd>${reader.prize}</dd></div>`);
+  if (reader.themes) facts.push(`<div><dt>Temas</dt><dd>${reader.themes}</dd></div>`);
+  if (facts.length) parts.push(`<dl class="reader__facts">${facts.join("")}</dl>`);
 
   return parts.join("");
 }

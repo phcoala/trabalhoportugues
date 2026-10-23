@@ -502,10 +502,23 @@
                 <span class="line"><span class="line__inner" data-split>PERGUNTAS</span></span>
               </h2>
             </div>
-            <div class="questions__board">
+            <div class="questions__board" role="button" tabindex="0" aria-label="Avançar pergunta">
               <span class="questions__glyph" aria-hidden="true">?</span>
               <span class="questions__orbit" aria-hidden="true"></span>
-              <p class="questions__placeholder">Faltando essa parte.</p>
+              <ol class="questions__list">
+                <li class="questions__item is-current">
+                  <span class="questions__num">01</span>
+                  <p class="questions__ask">“Onde a censura calou, a literatura falou” — essa frase ainda vale hoje?</p>
+                </li>
+                <li class="questions__item" aria-hidden="true">
+                  <span class="questions__num">02</span>
+                  <p class="questions__ask">O silêncio também pode ser uma forma de censura?</p>
+                </li>
+              </ol>
+              <div class="questions__dots" aria-hidden="true">
+                <span class="questions__dot is-current"></span>
+                <span class="questions__dot"></span>
+              </div>
             </div>
           </div>
         </section>

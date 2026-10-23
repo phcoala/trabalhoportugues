@@ -39,6 +39,10 @@ const indexItems = $$(".index__item");
 const themeLabel = $("[data-theme-label]");
 const themeButton = $('[data-action="theme"]');
 const readerEl = document.getElementById("reader");
+const mediaScene = $(".scene--media");
+const mediaPlayer = $("[data-media-player]", mediaScene);
+const mediaVideo = $("[data-media-video]", mediaScene);
+const mediaFullButton = $("[data-media-full]", mediaScene);
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -176,18 +180,19 @@ const themes = [
 const fxChapters = {
   0: { kicker: "Abertura", word: "Vozes e resistência", accent: "var(--accent)" },
   1: { kicker: "01 / Contexto", word: "Um país em mudança", accent: "var(--olive)", number: 1 },
-  2: { kicker: "02 / Autora", word: "Quem é Dulce Maria Cardoso", accent: "var(--rose)", number: 2 },
-  3: { kicker: "03 / Obras", word: "Uma obra feita de partidas", accent: "var(--ochre)", number: 3 },
-  4: { kicker: "04 / Temas", word: "Análise temática", accent: "var(--accent)", number: 4 },
-  5: { kicker: "05 / Forma", word: "A forma do delírio", accent: "var(--slate)", number: 5 },
-  6: { kicker: "06 / Trecho", word: "A cena da partida", accent: "var(--olive)", number: 6 },
-  7: { kicker: "07 / Resistência", word: "Escrever é resistir", accent: "var(--accent-deep)", number: 7 },
-  8: { kicker: "08 / Presente", word: "Os ecos de 1975", accent: "var(--slate)", number: 8 },
-  9: { kicker: "09 / Conclusão", word: "Voltar é uma forma de continuar", accent: "var(--ochre)", number: 9 },
-  10: { kicker: "10 / Voz", word: "A voz da autora", accent: "var(--rose)", number: 10 },
-  11: { kicker: "11 / Perguntas", word: "Perguntas", accent: "var(--slate)", number: 11 },
-  12: { kicker: "12 / Frase", word: "A última palavra", accent: "var(--rose)", number: 12 },
-  13: { kicker: "Fim / Apresentação", word: "Obrigado pela atenção", accent: "var(--accent)" },
+  2: { kicker: "02 / Literatura", word: "Uma literatura em mudança", accent: "var(--accent)", number: 2 },
+  3: { kicker: "03 / Autora", word: "Quem é Dulce Maria Cardoso", accent: "var(--rose)", number: 3 },
+  4: { kicker: "04 / Obras", word: "Uma obra feita de partidas", accent: "var(--ochre)", number: 4 },
+  5: { kicker: "05 / Temas", word: "Análise temática", accent: "var(--accent)", number: 5 },
+  6: { kicker: "06 / Forma", word: "A forma do delírio", accent: "var(--slate)", number: 6 },
+  7: { kicker: "07 / Trecho", word: "A cena da partida", accent: "var(--olive)", number: 7 },
+  8: { kicker: "08 / Resistência", word: "Escrever é resistir", accent: "var(--accent-deep)", number: 8 },
+  9: { kicker: "09 / Presente", word: "Os ecos de 1975", accent: "var(--slate)", number: 9 },
+  10: { kicker: "10 / Conclusão", word: "Voltar é uma forma de continuar", accent: "var(--ochre)", number: 10 },
+  11: { kicker: "11 / Voz", word: "A voz da autora", accent: "var(--rose)", number: 11 },
+  12: { kicker: "12 / Perguntas", word: "Perguntas", accent: "var(--slate)", number: 12 },
+  13: { kicker: "13 / Frase", word: "A última palavra", accent: "var(--rose)", number: 13 },
+  14: { kicker: "Fim / Apresentação", word: "Obrigado pela atenção", accent: "var(--accent)" },
 };
 
 /* -------------------------------------------------------------------------
@@ -328,7 +333,7 @@ function routeOverlay(scene, path) {
 }
 
 function resetExcerptNotes() {
-  const scene = scenes[6];
+  const scene = scenes[7];
   const quote = $(".excerpt__quote", scene);
   if (!quote) return;
   quote.classList.remove("has-focus");
@@ -343,7 +348,7 @@ function resetExcerptNotes() {
 }
 
 function toggleExcerptNote(index) {
-  const scene = scenes[6];
+  const scene = scenes[7];
   const buttons = $$("[data-excerpt-note]", scene);
   const button = buttons[index];
   if (!button) return;
@@ -414,6 +419,12 @@ function startAmbient(index) {
   }
 
   if (index === 2) {
+    const stamp = $(".literature__stamp", scene);
+
+    if (stamp) loopTween(stamp, { rotate: -5.2, y: -3, duration: 5.6 });
+  }
+
+  if (index === 3) {
     const year = $(".author__year", scene);
     const photo = $(".author__photo-frame img", scene);
 
@@ -421,13 +432,13 @@ function startAmbient(index) {
     loopTween(photo, { scale: 1.11, duration: 12 });
   }
 
-  if (index === 6) {
+  if (index === 7) {
     const recede = $(".excerpt__recede", scene);
 
     if (recede) loopTween(recede, { x: -26, scale: 0.5, opacity: 0.25, duration: 4.4 });
   }
 
-  if (index === 8) {
+  if (index === 9) {
     const board = $(".present__board", scene);
     const spark = $(".present__spark", scene);
 
@@ -445,7 +456,7 @@ function startAmbient(index) {
     }
   }
 
-  if (index === 9) {
+  if (index === 10) {
     const orbit = $(".closing__orbit", scene);
 
     if (orbit) {
@@ -461,7 +472,7 @@ function startAmbient(index) {
     }
   }
 
-  if (index === 11) {
+  if (index === 12) {
     const orbit = $(".questions__orbit", scene);
 
     if (orbit) {
@@ -477,7 +488,7 @@ function startAmbient(index) {
     }
   }
 
-  if (index === 12) {
+  if (index === 13) {
     const orbit = $(".mariana__orbit", scene);
 
     if (orbit) {
@@ -554,8 +565,57 @@ function enterContext() {
   return tl;
 }
 
-function enterAuthor() {
+function enterLiterature() {
   const scene = scenes[2];
+  const head = $(".chapter-head", scene);
+  const titleChars = charsIn(scene, ".literature__title [data-split]");
+  const serif = $(".literature__title-line em", scene);
+  const lead = $(".literature__lead", scene);
+  const moments = $$(".literature__moment", scene);
+  const board = $(".literature__board", scene);
+  const kicker = $(".literature__board-kicker", scene);
+  const boardTitle = $(".literature__board-title", scene);
+  const rows = $$(".literature__theme", scene);
+  const nums = $$(".literature__theme-num", scene);
+  const bars = $$(".literature__redact", scene);
+  const foot = $(".literature__board-foot", scene);
+  const stamp = $(".literature__stamp", scene);
+
+  gsap.set(head, { opacity: 0, y: -10 });
+  gsap.set(titleChars, { yPercent: 122, rotate: 2 });
+  gsap.set(serif, { opacity: 0, y: 24, rotate: -2, transformOrigin: "left center" });
+  gsap.set(lead, { opacity: 0, y: 16 });
+  gsap.set(moments, { opacity: 0, x: -22 });
+  gsap.set(board, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set(kicker, { opacity: 0, y: -8 });
+  gsap.set(boardTitle, { opacity: 0, y: 14 });
+  gsap.set(rows, { opacity: 0, y: 18 });
+  gsap.set(nums, { opacity: 0 });
+  gsap.set(bars, { scaleX: 1, transformOrigin: "right center" });
+  gsap.set(foot, { opacity: 0 });
+  gsap.set(stamp, { opacity: 0, scale: 1.5, rotate: -18 });
+
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+  tl.to(head, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
+    .to(titleChars, { yPercent: 0, rotate: 0, duration: 1.15, stagger: 0.035, ease: "expo.out" }, 0.12)
+    .to(serif, { opacity: 1, y: 0, rotate: -1.4, duration: 0.95, ease: "expo.out" }, 0.6)
+    .to(lead, { opacity: 0.72, y: 0, duration: 0.85 }, 0.66)
+    .to(moments, { opacity: 1, x: 0, duration: 0.85, stagger: 0.12 }, 0.86)
+    .to(board, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "expo.inOut" }, 0.34)
+    .to(kicker, { opacity: 1, y: 0, duration: 0.6 }, 0.7)
+    .to(boardTitle, { opacity: 1, y: 0, duration: 0.75 }, 0.8)
+    .to(rows, { opacity: 1, y: 0, duration: 0.8, stagger: 0.09 }, 0.94)
+    .to(nums, { opacity: 0.46, duration: 0.5, stagger: 0.09 }, 1.02)
+    .to(bars, { scaleX: 0, duration: 0.8, stagger: 0.1, ease: "expo.inOut" }, 1.38)
+    .to(foot, { opacity: 1, duration: 0.55 }, 1.75)
+    .to(stamp, { opacity: 0.9, scale: 1, rotate: -7, duration: 0.75, ease: "back.out(2.2)" }, 1.92);
+
+  return tl;
+}
+
+function enterAuthor() {
+  const scene = scenes[3];
   const lines = $$(".author__name [data-split]", scene);
   const allChars = lines.flatMap((line) => line._chars || []);
   const photo = $(".author__photo", scene);
@@ -595,7 +655,7 @@ function enterAuthor() {
 const fanMode = window.matchMedia("(min-width: 901px)");
 
 function bookTargets() {
-  const scene = scenes[3];
+  const scene = scenes[4];
   const stack = $("[data-stack]", scene);
   const books = $$(".book", scene);
   const width = stack?.clientWidth || 800;
@@ -623,7 +683,7 @@ function bookTargets() {
 }
 
 function applyBookLayout(animate = false) {
-  const books = $$(".book", scenes[3]);
+  const books = $$(".book", scenes[4]);
   if (!books.length) return;
 
   if (!fanMode.matches) {
@@ -650,7 +710,7 @@ function applyBookLayout(animate = false) {
 }
 
 function syncBookState() {
-  $$(".book", scenes[3]).forEach((book, index) => {
+  $$(".book", scenes[4]).forEach((book, index) => {
     const active = index === state.workIndex;
     book.classList.toggle("is-current", active);
     if (active) book.setAttribute("aria-current", "true");
@@ -659,7 +719,7 @@ function syncBookState() {
 }
 
 function syncWorkInfo() {
-  const scene = scenes[3];
+  const scene = scenes[4];
   const data = works[state.workIndex];
   if (!scene || !data) return;
 
@@ -671,7 +731,7 @@ function syncWorkInfo() {
 }
 
 function updateWork(index, { announceChange = true } = {}) {
-  const scene = scenes[3];
+  const scene = scenes[4];
   const next = Math.max(0, Math.min(works.length - 1, index));
 
   if (workTl) workTl.kill();
@@ -721,7 +781,7 @@ function updateWork(index, { announceChange = true } = {}) {
 }
 
 function enterWorks() {
-  const scene = scenes[3];
+  const scene = scenes[4];
   const head = $(".works__head", scene);
   const ghost = $(".works__ghost", scene);
   const current = $(".works__current", scene);
@@ -782,7 +842,7 @@ function enterWorks() {
 }
 
 function selectAxis(index, { animate = true } = {}) {
-  const scene = scenes[4];
+  const scene = scenes[5];
   if (!scene) return;
 
   const next = ((index % themes.length) + themes.length) % themes.length;
@@ -828,7 +888,7 @@ function selectAxis(index, { animate = true } = {}) {
 }
 
 function enterThemes() {
-  const scene = scenes[4];
+  const scene = scenes[5];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".axes__title .line__inner[data-split]");
   const titleEm = $(".axes__title-line em", scene);
@@ -866,7 +926,7 @@ function enterThemes() {
 }
 
 function enterForm() {
-  const scene = scenes[5];
+  const scene = scenes[6];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".form__title [data-split]");
   const serif = $(".form__title-serif em", scene);
@@ -894,7 +954,7 @@ function enterForm() {
 }
 
 function enterExcerpt() {
-  const scene = scenes[6];
+  const scene = scenes[7];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".excerpt__title [data-split]");
   const lead = $(".excerpt__lead", scene);
@@ -937,7 +997,7 @@ function enterExcerpt() {
 }
 
 function enterResist() {
-  const scene = scenes[7];
+  const scene = scenes[8];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".resist__title [data-split]");
   const lead = $(".resist__lead", scene);
@@ -965,7 +1025,7 @@ function enterResist() {
 }
 
 function enterPresent() {
-  const scene = scenes[8];
+  const scene = scenes[9];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".present__title [data-split]");
   const lead = $(".present__lead", scene);
@@ -1002,7 +1062,7 @@ function enterPresent() {
 }
 
 function enterClosing() {
-  const scene = scenes[9];
+  const scene = scenes[10];
   const head = $(".chapter-head", scene);
   const orbit = $(".closing__orbit", scene);
   const titleChars = charsIn(scene, ".closing__title [data-split]");
@@ -1037,18 +1097,18 @@ function enterClosing() {
 }
 
 function enterMedia() {
-  const scene = scenes[10];
+  const scene = scenes[11];
   const head = $(".chapter-head", scene);
   const frame = $(".media__frame", scene);
-  const image = $(".media__frame img", scene);
-  const slot = $(".media__slot", scene);
+  const player = $(".media__player", scene);
+  const video = $(".media__video", scene);
   const caption = $(".media__screen figcaption", scene);
   const titleChars = charsIn(scene, ".media__title [data-split]");
 
   gsap.set(head, { opacity: 0, y: -10 });
+  gsap.set(player, { opacity: 0, y: 16 });
   gsap.set(frame, { clipPath: "inset(0 0 0 100%)" });
-  gsap.set(image, { scale: 1.14 });
-  gsap.set(slot, { opacity: 0, y: 8 });
+  gsap.set(video, { scale: 1.08 });
   gsap.set(caption, { opacity: 0 });
   gsap.set(titleChars, { yPercent: 122, rotate: 2 });
 
@@ -1056,16 +1116,16 @@ function enterMedia() {
 
   tl.to(head, { opacity: 1, y: 0, duration: 0.7 }, 0.05)
     .to(titleChars, { yPercent: 0, rotate: 0, duration: 1.05, stagger: 0.032, ease: "expo.out" }, 0.12)
+    .to(player, { opacity: 1, y: 0, duration: 0.75 }, 0.24)
     .to(frame, { clipPath: "inset(0 0 0% 0)", duration: 1.1, ease: "expo.inOut" }, 0.32)
-    .to(image, { scale: 1.02, duration: 1.4 }, 0.32)
-    .to(slot, { opacity: 1, y: 0, duration: 0.55 }, 0.92)
-    .to(caption, { opacity: 0.62, duration: 0.7 }, 1.05);
+    .to(video, { scale: 1.02, duration: 1.4 }, 0.32)
+    .to(caption, { opacity: 0.66, duration: 0.7 }, 1.05);
 
   return tl;
 }
 
 function enterQuestions() {
-  const scene = scenes[11];
+  const scene = scenes[12];
   const head = $(".chapter-head", scene);
   const titleChars = charsIn(scene, ".questions__title [data-split]");
   const board = $(".questions__board", scene);
@@ -1094,7 +1154,7 @@ function enterQuestions() {
 }
 
 function enterMariana() {
-  const scene = scenes[12];
+  const scene = scenes[13];
   const head = $(".chapter-head", scene);
   const glyph = $(".mariana__glyph", scene);
   const orbit = $(".mariana__orbit", scene);
@@ -1153,6 +1213,7 @@ function enterOutro() {
 const enterBuilders = [
   enterTitle,
   enterContext,
+  enterLiterature,
   enterAuthor,
   enterWorks,
   enterThemes,
@@ -1210,6 +1271,8 @@ function swapScene(next) {
   if (next === state.current) return;
   const previous = scenes[state.current];
   const incoming = scenes[next];
+
+  if (previous === mediaScene) pauseMediaVideo();
 
   if (activeSceneTl) activeSceneTl.kill();
   killAmbient();
@@ -1430,10 +1493,51 @@ function toggleFullscreen() {
   }
 }
 
+function isMediaFullscreen() {
+  return Boolean(mediaPlayer && document.fullscreenElement === mediaPlayer);
+}
+
+function pauseMediaVideo() {
+  if (mediaVideo && !mediaVideo.paused) mediaVideo.pause();
+}
+
+function toggleMediaFullscreen() {
+  if (!mediaPlayer) return;
+
+  if (isMediaFullscreen()) {
+    document.exitFullscreen?.().catch(() => {});
+    return;
+  }
+
+  const request = mediaPlayer.requestFullscreen
+    ? mediaPlayer.requestFullscreen.bind(mediaPlayer)
+    : mediaVideo?.webkitEnterFullscreen?.bind(mediaVideo);
+
+  if (!request) {
+    announce("Tela cheia indisponível neste navegador");
+    return;
+  }
+
+  try {
+    const result = request();
+    if (result && typeof result.catch === "function") {
+      result.catch(() => announce("Tela cheia indisponível neste navegador"));
+    }
+  } catch (error) {
+    announce("Tela cheia indisponível neste navegador");
+  }
+}
+
 function syncFullscreenLabel() {
   const button = $('[data-action="fullscreen"]');
   if (!button) return;
   button.setAttribute("aria-label", document.fullscreenElement ? "Sair da tela cheia" : "Entrar em tela cheia");
+
+  if (mediaFullButton) {
+    const active = isMediaFullscreen();
+    mediaFullButton.setAttribute("aria-label", active ? "Sair da tela cheia" : "Ver o vídeo em tela cheia");
+    mediaFullButton.setAttribute("aria-pressed", String(active));
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -1446,6 +1550,7 @@ function indexFocusables() {
 
 function openIndex() {
   if (state.indexOpen) return;
+  pauseMediaVideo();
   state.savedFocus = document.activeElement;
   state.indexOpen = true;
   indexEl.classList.add("is-open");
@@ -1526,7 +1631,7 @@ function renderReader(index) {
   $("[data-reader-count]", readerEl).textContent = `${pad(index + 1)} / ${pad(works.length)}`;
 
   const cover = $("[data-reader-cover]", readerEl);
-  const bookCover = $$(".book", scenes[3])[index]?.querySelector(".book__cover");
+  const bookCover = $$(".book", scenes[4])[index]?.querySelector(".book__cover");
   if (bookCover && cover) {
     cover.src = bookCover.currentSrc || bookCover.src;
     cover.alt = `Capa de ${data.title}`;
@@ -1553,6 +1658,7 @@ function resumeUnderlay() {
 
 function openReader(index, trigger) {
   if (state.readerOpen || state.transitioning) return;
+  pauseMediaVideo();
 
   state.readerOpen = true;
   state.savedReaderFocus = trigger || document.activeElement;
@@ -1786,7 +1892,11 @@ function bindEvents() {
     button.addEventListener("click", toggleTheme);
   });
 
-  $$("[data-axis]", scenes[4]).forEach((row) => {
+  if (mediaFullButton) {
+    mediaFullButton.addEventListener("click", toggleMediaFullscreen);
+  }
+
+  $$("[data-axis]", scenes[5]).forEach((row) => {
     row.addEventListener("click", () => selectAxis(Number(row.dataset.axis)));
   });
 
@@ -1819,32 +1929,32 @@ function bindEvents() {
     });
   });
 
-  $$(".book", scenes[3]).forEach((book, index) => {
+  $$(".book", scenes[4]).forEach((book, index) => {
     book.addEventListener("focus", () => {
-      if (state.current !== 3 || state.transitioning || state.readerOpen) return;
+      if (state.current !== 4 || state.transitioning || state.readerOpen) return;
       if (state.workIndex !== index) updateWork(index, { announceChange: false });
     });
 
     book.addEventListener("click", () => {
-      if (state.current !== 3 || state.transitioning) return;
+      if (state.current !== 4 || state.transitioning) return;
       openReader(index, book);
       showHud();
     });
 
     book.addEventListener("pointerenter", () => {
-      if (state.current !== 3 || state.transitioning || !fanMode.matches) return;
+      if (state.current !== 4 || state.transitioning || !fanMode.matches) return;
       gsap.set(book, { zIndex: 60 });
     });
 
     book.addEventListener("pointerleave", () => {
-      if (state.current !== 3 || !fanMode.matches) return;
+      if (state.current !== 4 || !fanMode.matches) return;
       gsap.set(book, { zIndex: 30 - Math.abs(index - state.workIndex) });
     });
   });
 
-  $$("[data-excerpt-note]", scenes[6]).forEach((button) => {
+  $$("[data-excerpt-note]", scenes[7]).forEach((button) => {
     button.addEventListener("click", () => {
-      if (state.current !== 6 || state.transitioning) return;
+      if (state.current !== 7 || state.transitioning) return;
       toggleExcerptNote(Number(button.dataset.excerptNote));
       showHud();
     });
@@ -1861,6 +1971,7 @@ function bindEvents() {
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
+      pauseMediaVideo();
       activeAmbient.forEach((tween) => tween.pause());
       $$("svg", stage).forEach((svg) => svg.pauseAnimations?.());
       if (activeSceneTl) activeSceneTl.pause();
@@ -1919,6 +2030,27 @@ function bindEvents() {
       return;
     }
 
+    const mediaFocus = event.target instanceof Element ? event.target.closest(".media__player") : null;
+    const videoFocus = event.target === mediaVideo;
+
+    if (isMediaFullscreen()) {
+      if (key === "f" || key === "F") {
+        event.preventDefault();
+        toggleMediaFullscreen();
+      }
+      return;
+    }
+
+    if (mediaFocus && (key === "f" || key === "F")) {
+      event.preventDefault();
+      toggleMediaFullscreen();
+      return;
+    }
+
+    if (videoFocus && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End"].includes(key)) {
+      return;
+    }
+
     if (key === "Escape") return;
     if (event.altKey || event.ctrlKey || event.metaKey) return;
 
@@ -1933,7 +2065,7 @@ function bindEvents() {
         break;
       case "ArrowDown":
         event.preventDefault();
-        if (state.current === 3 && fanMode.matches) updateWork(state.workIndex + 1);
+        if (state.current === 4 && fanMode.matches) updateWork(state.workIndex + 1);
         else nextScene();
         break;
       case "ArrowLeft":
@@ -1943,7 +2075,7 @@ function bindEvents() {
         break;
       case "ArrowUp":
         event.preventDefault();
-        if (state.current === 3 && fanMode.matches) updateWork(state.workIndex - 1);
+        if (state.current === 4 && fanMode.matches) updateWork(state.workIndex - 1);
         else previousScene();
         break;
       case "Home":
@@ -1981,6 +2113,8 @@ function bindEvents() {
 
   document.addEventListener("wheel", (event) => {
     if (!state.booted || state.indexOpen || state.readerOpen || state.transitioning) return;
+    if (isMediaFullscreen()) return;
+    if (event.target instanceof Element && event.target.closest(".media__player")) return;
     if (event.ctrlKey) return;
 
     const now = performance.now();
@@ -1996,7 +2130,7 @@ function bindEvents() {
 
   stage.addEventListener("touchstart", (event) => {
     if (event.touches.length !== 1) return;
-    if (event.target instanceof Element && event.target.closest("button")) return;
+    if (event.target instanceof Element && event.target.closest("button, .media__player, video")) return;
     state.touchStart = {
       x: event.touches[0].clientX,
       y: event.touches[0].clientY,
@@ -2005,6 +2139,10 @@ function bindEvents() {
 
   stage.addEventListener("touchend", (event) => {
     if (!state.touchStart) return;
+    if (isMediaFullscreen()) {
+      state.touchStart = null;
+      return;
+    }
     const touch = event.changedTouches[0];
     const dx = touch.clientX - state.touchStart.x;
     const dy = touch.clientY - state.touchStart.y;
@@ -2022,7 +2160,7 @@ function bindEvents() {
     resizeTimer = window.setTimeout(() => {
       const animating = activeSceneTl && activeSceneTl.isActive();
       if (!state.readerOpen && !state.transitioning && !animating) {
-        if (state.current === 3) applyBookLayout(false);
+        if (state.current === 4) applyBookLayout(false);
         startAmbient(state.current);
       }
     }, 160);

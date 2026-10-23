@@ -1131,7 +1131,15 @@ function enterQuestions() {
   const board = $(".questions__board", scene);
   const glyph = $(".questions__glyph", scene);
   const orbit = $(".questions__orbit", scene);
-  const note = $(".questions__placeholder", scene);
+  const list = $(".questions__list", scene);
+  const items = $$(".questions__item", scene);
+  const dots = $$(".questions__dot", scene);
+
+  items.forEach((item, i) => {
+    item.classList.toggle("is-current", i === 0);
+    item.setAttribute("aria-hidden", i === 0 ? "false" : "true");
+  });
+  dots.forEach((dot, i) => dot.classList.toggle("is-current", i === 0));
 
   if (orbit) gsap.set(orbit, { clearProps: "transform" });
   gsap.set(head, { opacity: 0, y: -10 });
@@ -1139,7 +1147,8 @@ function enterQuestions() {
   gsap.set(board, { opacity: 0, clipPath: "inset(0% 0% 100% 0%)" });
   gsap.set(glyph, { opacity: 0, scale: 0.78, rotate: -8 });
   gsap.set(orbit, { opacity: 0, scale: 0.86 });
-  gsap.set(note, { opacity: 0, y: 18 });
+  gsap.set(list, { opacity: 0, y: 18 });
+  gsap.set(dots, { opacity: 0, y: 8 });
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
@@ -1148,9 +1157,48 @@ function enterQuestions() {
     .to(board, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "expo.inOut" }, 0.34)
     .to(glyph, { opacity: 0.14, scale: 1, rotate: 0, duration: 1.2, ease: "expo.out" }, 0.52)
     .to(orbit, { opacity: 0.5, scale: 1, duration: 1.1, ease: "expo.out" }, 0.6)
-    .to(note, { opacity: 1, y: 0, duration: 0.7 }, 0.86);
+    .to(list, { opacity: 1, y: 0, duration: 0.7 }, 0.86)
+    .to(dots, { opacity: 1, y: 0, duration: 0.6 }, 1.0);
 
   return tl;
+}
+
+function questionsSwap() {
+  const scene = scenes[12];
+  const list = $(".questions__list", scene);
+  const items = $$(".questions__item", scene);
+  const dots = $$(".questions__dot", scene);
+  const glyph = $(".questions__glyph", scene);
+  const index = items.findIndex((item) => item.classList.contains("is-current"));
+  const next = (index + 1) % items.length;
+
+  if (reduceMotion) {
+    items.forEach((item, i) => {
+      item.classList.toggle("is-current", i === next);
+      item.setAttribute("aria-hidden", i === next ? "false" : "true");
+    });
+    dots.forEach((dot, i) => dot.classList.toggle("is-current", i === next));
+    return;
+  }
+
+  gsap.to(list, {
+    opacity: 0,
+    y: -10,
+    duration: 0.28,
+    ease: "power2.in",
+    overwrite: "auto",
+    onComplete: () => {
+      items.forEach((item, i) => {
+        item.classList.toggle("is-current", i === next);
+        item.setAttribute("aria-hidden", i === next ? "false" : "true");
+      });
+      dots.forEach((dot, i) => dot.classList.toggle("is-current", i === next));
+      gsap.fromTo(list, { y: 10 }, { opacity: 1, y: 0, duration: 0.42, ease: "power2.out" });
+      if (glyph) {
+        gsap.fromTo(glyph, { scale: 1 }, { scale: 1.06, duration: 0.32, ease: "power2.out", yoyo: true, repeat: 1, overwrite: "auto" });
+      }
+    },
+  });
 }
 
 function enterMariana() {
@@ -1959,6 +2007,20 @@ function bindEvents() {
       showHud();
     });
   });
+
+  const questionsBoard = $(".questions__board", scenes[12]);
+  if (questionsBoard) {
+    questionsBoard.addEventListener("click", () => {
+      if (state.current !== 12 || state.transitioning) return;
+      questionsSwap();
+    });
+    questionsBoard.addEventListener("keydown", (event) => {
+      if ((event.key === "Enter" || event.key === " ") && state.current === 12 && !state.transitioning) {
+        event.preventDefault();
+        questionsSwap();
+      }
+    });
+  }
 
   $$("[data-reader-close]", readerEl).forEach((button) => {
     button.addEventListener("click", () => closeReader());

@@ -1216,7 +1216,7 @@ function enterMariana() {
   gsap.set(orbit, { opacity: 0, scale: 0.84, rotate: -18 });
   gsap.set(note, { opacity: 0, y: 24 });
   gsap.set(rule, { scaleX: 0, transformOrigin: "center center" });
-  gsap.set(credit, { opacity: 0, y: 10 });
+  if (credit) gsap.set(credit, { opacity: 0, y: 10 });
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
@@ -1224,8 +1224,9 @@ function enterMariana() {
     .to(glyph, { opacity: 0.22, scale: 1, rotate: 0, duration: 1.15, ease: "expo.out" }, 0.12)
     .to(orbit, { opacity: 0.7, scale: 1, rotate: 0, duration: 1.35, ease: "expo.out" }, 0.26)
     .to(note, { opacity: 1, y: 0, duration: 0.95, ease: "expo.out" }, 0.48)
-    .to(rule, { scaleX: 1, duration: 0.9, ease: "expo.inOut" }, 0.82)
-    .to(credit, { opacity: 0.62, y: 0, duration: 0.6 }, 1.02);
+    .to(rule, { scaleX: 1, duration: 0.9, ease: "expo.inOut" }, 0.82);
+
+  if (credit) tl.to(credit, { opacity: 0.62, y: 0, duration: 0.6 }, 1.02);
 
   return tl;
 }
